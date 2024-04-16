@@ -20,7 +20,7 @@ import pt.sweranker.api.rest.filters.request.RequestContextData;
 import pt.sweranker.api.rest.filters.request.RequestData;
 import pt.sweranker.api.rest.resources.courses.converters.CourseConverter;
 import pt.sweranker.api.rest.resources.courses.dto.request.CourseSearchFilter;
-import pt.sweranker.dao.degrees.DegreeDAO;
+import pt.sweranker.dao.courses.CourseDAO;
 import pt.sweranker.persistence.entities.degrees.Course;
 import pt.sweranker.persistence.entities.degrees.DegreeTranslation;
 
@@ -36,7 +36,7 @@ public class CourseResource {
     private RequestContextData requestData;
 
     @EJB
-    private DegreeDAO degreeDAO;
+    private CourseDAO courseDAO;
 
     @EJB
     private CourseConverter degreeConverter;
@@ -44,7 +44,7 @@ public class CourseResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll(@Valid @BeanParam CourseSearchFilter filter) {
-        List<Course> degrees = degreeDAO.findFiltered(degreeConverter.toDegreeFilterCriteria(filter));
+        List<Course> degrees = courseDAO.findFiltered(degreeConverter.toDegreeFilterCriteria(filter));
         return Response.ok(degreeConverter.toDegreeDTOs(degrees)).build();
     }
 
@@ -53,7 +53,7 @@ public class CourseResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDegree(@PathParam("id") Long id) {
 
-        DegreeTranslation degree = degreeDAO.findById(id);
+        DegreeTranslation degree = courseDAO.findById(id);
 
         return Response.ok(degreeConverter.toDegreeDTO(degree)).build();
     }
