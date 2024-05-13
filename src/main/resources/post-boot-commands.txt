@@ -1,2 +1,0 @@
-# Always neat to have JVM options being print at boot
-generate-jvm-report
